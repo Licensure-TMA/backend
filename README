@@ -1,0 +1,39 @@
+# Licensure
+
+Licensure is a [brief description of your project]. It aims to [state the main objectives or features of your project].
+
+## Features
+
+- [Feature 1]
+- [Feature 2]
+- [Feature 3]
+
+## Installation
+
+[Provide instructions on how to install and set up your project]
+
+## Usage
+
+[Provide examples and instructions on how to use your project]
+
+## Contributing
+
+[Specify guidelines for contributing to your project]
+
+## License
+
+Licensure is licensed under a modified version of the Business Source License 1.1 (BSL 1.1). Here are the key points:
+
+- You are free to use, modify, and distribute the code for non-production purposes.
+- For commercial use of the code before 04/20/2025, you must obtain a commercial license from Licensure.
+- On 04/20/2025, the code will be released under the GNU GPLv3 license and will be free to use for any purpose.
+
+For more details, please see the [LICENSE](./LICENSE) file.
+
+## Contact
+
+If you have any questions, feel free to reach out:
+
+- Email: [your email address]
+- Twitter: [@yourtwitterhandle](https://twitter.com/yourtwitterhandle)
+- Web: [yourwebsite.com](https://www.yourwebsite.com)
