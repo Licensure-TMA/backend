@@ -20,8 +20,9 @@ COPY . .
 COPY fullchain.pem /etc/letsencrypt/live/licensure.tech/
 COPY privkey.pem /etc/letsencrypt/live/licensure.tech/
 
-# Устанавливаем переменную окружения SECRET_KEY
-ENV SECRET_KEY=$(cat environment | grep SECRET_KEY | cut -d '=' -f 2 | tr -d "'")
+# Читаем значение SECRET_KEY из файла environment и устанавливаем его как переменную окружения
+RUN export SECRET_KEY=$(cat environment | grep SECRET_KEY | cut -d '=' -f 2 | tr -d "'")
+ENV SECRET_KEY=$SECRET_KEY
 
 # Даем права на исполнение скрипту start_gunicorn.sh
 RUN chmod +x start_gunicorn.sh
