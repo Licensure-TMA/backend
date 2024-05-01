@@ -16,11 +16,6 @@ RUN pip install --no-cache-dir -r requirements.txt
 # Копируем остальные файлы в рабочую директорию
 COPY . .
 
-# Копируем SSL-сертификат, ключ и секретный ключ с сервера в контейнер
-COPY ./fullchain.pem /etc/letsencrypt/live/licensure.tech/
-COPY ./privkey.pem /etc/letsencrypt/live/licensure.tech/
-COPY ./environment /etc/environment
-
 # Даем права на исполнение скрипту start_gunicorn.sh
 RUN chmod +x start_gunicorn.sh
 
