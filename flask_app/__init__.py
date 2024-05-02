@@ -12,4 +12,4 @@ limiter = Limiter(
 )
 
 # Импорт модулей
-import views, auth, logic
+from flask_app import views, auth, logic

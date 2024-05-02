@@ -1,3 +1,4 @@
 PyJWT
 Flask-Limiter
 Flask
+gunicorn
