@@ -1,34 +1,27 @@
-import jwt
 from functools import wraps
 from flask import request, jsonify
 import os
 
+# Получаем SECRET_KEY из переменной окружения
 SECRET_KEY = os.environ.get('SECRET_KEY')
 
 def token_required(f):
     @wraps(f)
     def decorated(*args, **kwargs):
-        token = None
-        
-        # Извлекаю токен из заголовка Authorization
-        if 'Authorization' in request.headers:
-            token = request.headers['Authorization'].replace("Bearer ", "")
-        
-        # Если токен отсутствует, верну ошибку
-        if not token:
-            return jsonify({'message': 'Token is missing!'}), 403
+        # Извлекаем токен из заголовка Authorization
+        token = request.headers.get('Authorization')
 
-        try:
-            # Декодирование токена
-            jwt.decode(token, SECRET_KEY, algorithms=["HS256"])
-        except jwt.ExpiredSignatureError:
-            return jsonify({'message': 'Token has expired'}), 403
-        except jwt.InvalidTokenError:
+        # Если заголовок Authorization отсутствует или не содержит префикс "Bearer ", вернем ошибку
+        if not token or not token.startswith("Bearer "):
+            return jsonify({'message': 'Token is missing or invalid!'}), 403
+
+        # Удаляем префикс "Bearer " и проверяем, совпадает ли токен с SECRET_KEY
+        token = token[7:]  # Удалить "Bearer " из строки
+
+        if token != SECRET_KEY:
             return jsonify({'message': 'Token is invalid'}), 403
-        except Exception:
-            return jsonify({'message': 'An error occurred while validating the token'}), 500
 
-        # Передаю управление декорированной функции
+        # Если токен валиден, передаем управление декорированной функции
         return f(*args, **kwargs)
 
     return decorated
