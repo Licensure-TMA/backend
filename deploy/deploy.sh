@@ -13,6 +13,6 @@ docker pull aleksglebov/licensure:back
 set -o allexport; source /etc/environment; set +o allexport
 
 # Запустить новый контейнер
-docker run -p 8082:8082 -d --name back -e SECRET_KEY="$SECRET_KEY" aleksglebov/licensure:back
+docker run -p 8082:8082 -v /home/defendershow/backend/tma.db:/app/tma.db -d --name back -e SECRET_KEY="$SECRET_KEY" aleksglebov/licensure:back
 
 echo "Deployment completed successfully."
