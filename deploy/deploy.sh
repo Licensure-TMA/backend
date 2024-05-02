@@ -11,6 +11,6 @@ docker rmi aleksglebov/licensure:back || true
 docker pull aleksglebov/licensure:back
 
 # Запустить новый контейнер
-docker run -p 8082:8082 -d --name back aleksglebov/licensure:back
+docker run -p 8082:8082 -d --name back -e SECRET_KEY="$SECRET_KEY" aleksglebov/licensure:back
 
 echo "Deployment completed successfully."
