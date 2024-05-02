@@ -13,4 +13,4 @@ logger = logging.getLogger(__name__)
 @limiter.limit("10 per minute")
 @token_required
 def test():
-    return jsonify({'test': "ok"}), 200
+    return jsonify({'test': "ok!"}), 200
