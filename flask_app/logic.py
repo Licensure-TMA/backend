@@ -9,7 +9,7 @@ logging.basicConfig(format='%(asctime)s - %(name)s - %(levelname)s - %(message)s
 logger = logging.getLogger(__name__)
 
 # Определение пути к файлу базы данных
-db_path = os.path.join('app', 'tma.db')
+db_path = os.path.join('tma.db')
 
 def generate_nickname() -> str:
     logger.info("generate_nickname called")
@@ -40,15 +40,23 @@ def create_user_db(wallet_address: str) -> object:
         nickname = generate_nickname()
         conn = sqlite3.connect(db_path)
         c = conn.cursor()
+        
+        # Проверка существования пользователя с таким wallet_address
+        c.execute("SELECT 1 FROM users WHERE wallet_address = ?", (wallet_address,))
+        if c.fetchone():
+            raise ValueError("User with this wallet address already exists")
+        
         c.execute("INSERT INTO users (wallet_address, nickname) VALUES (?, ?)", (wallet_address, nickname))
         user_id = c.lastrowid
         conn.commit()
         return {'user_id': user_id, 'wallet_address': wallet_address, 'nickname': nickname}
     
-    except sqlite3.IntegrityError:
-        logger.error("User with wallet address %s already exists", wallet_address)
-        return None
-    
+    except sqlite3.IntegrityError as e:
+        logger.error(f"Integrity error: {e}")
+        raise ValueError("User with this wallet address already exists") from e
+    except sqlite3.Error as e:
+        logger.error(f"Database error: {e}")
+        raise Exception("An error occurred with the database operation") from e
     finally:
         if conn is not None:
             conn.close()

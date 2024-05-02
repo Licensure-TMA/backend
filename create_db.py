@@ -7,7 +7,7 @@ conn = sqlite3.connect('tma.db')
 conn.execute('''
     CREATE TABLE IF NOT EXISTS users (
         userid INTEGER PRIMARY KEY,
-        wallet_address TEXT,
+        wallet_address TEXT UNIQUE,
         created_at TEXT DEFAULT CURRENT_TIMESTAMP,
         nickname TEXT
     )
