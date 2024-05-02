@@ -34,18 +34,15 @@ def generate_nickname() -> str:
 
 def create_user_db(wallet_address: str) -> object:
     logger.info("create_user_db called")
+    conn = None
 
     try:
         nickname = generate_nickname()
-        
         conn = sqlite3.connect(db_path)
         c = conn.cursor()
-
         c.execute("INSERT INTO users (wallet_address, nickname) VALUES (?, ?)", (wallet_address, nickname))
-
         user_id = c.lastrowid
         conn.commit()
-
         return {'user_id': user_id, 'wallet_address': wallet_address, 'nickname': nickname}
     
     except sqlite3.IntegrityError:
@@ -53,4 +50,5 @@ def create_user_db(wallet_address: str) -> object:
         return None
     
     finally:
-        conn.close()
+        if conn is not None:
+            conn.close()
