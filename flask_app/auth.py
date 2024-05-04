@@ -13,13 +13,13 @@ def token_required(f):
 
         # Если заголовок Authorization отсутствует или не содержит префикс "Bearer ", вернем ошибку
         if not token or not token.startswith("Bearer "):
-            return jsonify({'message': 'Token is missing or invalid!'}), 403
+            return jsonify({'error': 'Token is missing or invalid!'}), 403
 
         # Удаляем префикс "Bearer " и проверяем, совпадает ли токен с SECRET_KEY
         token = token[7:]  # Удалить "Bearer " из строки
 
         if token != SECRET_KEY:
-            return jsonify({'message': 'Token is invalid'}), 403
+            return jsonify({'error': 'Token is invalid'}), 403
 
         # Если токен валиден, передаем управление декорированной функции
         return f(*args, **kwargs)
